@@ -16,10 +16,13 @@ horseOddsRouter.post("/odds", authenticateKey ,async (req: Request, res: Respons
             return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid URL parameter' });
         }
 
-        console.log("Starting to scrape: ", url)
         let result=[];
-        if(url.includes("/res/")){result = await scrapeResults(url);}
-        else if(url.includes("/evt/")) {result= await scrapeEvent(url);}
+        if(url.includes("/res/")){
+            console.log("Scraping Results")
+            result = await scrapeResults(url);}
+        else if(url.includes("/evt/")) {
+            console.log("Scraping Event:")
+            result= await scrapeEvent(url);}
 
         console.log("result", result)
 

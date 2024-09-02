@@ -13,14 +13,14 @@ interface Horse {
     rating: number;
     age: number;
     weight: number;
-    odds: number | string;
+    odds:string;
 
 }
 
 interface HorseRes{
     name: string,
     position: number;
-    odds:number | string;
+    odds: string;
 }
 
 
@@ -45,8 +45,7 @@ export const scrapeResults = async (url: string): Promise<HorseRes[]> => {
             const first: HorseRes[] = firstHorse.map(element => {
                 const name = (element.querySelector('.sc-fubDmA.bHRPAw.sc-dlfmHC.VnIYO')?.textContent || '').trim();
                 const position=parseFloat((element.querySelector('.sc-fubDmA.bHRPAw.sc-dlfmHC.hwrwlF')?.textContent || '').trim());
-                const oddString = (element.querySelector('.sc-fubDmA.dkMOSI.sc-dlfmHC.bxakJD')?.textContent || ' ').trim().split("/")
-                const odds : string|number =oddString.length===1? oddString[0] :parseInt(oddString[0])/parseInt(oddString[1])
+                const odds = (element.querySelector('.sc-fubDmA.dkMOSI.sc-dlfmHC.bxakJD')?.textContent || ' ').trim()
                 
 
                 return { name: name,  position:position, odds:odds };
@@ -56,8 +55,7 @@ export const scrapeResults = async (url: string): Promise<HorseRes[]> => {
             const rest: HorseRes[] = nexthorses.map(element => {
                 const name = (element.querySelector('.sc-fubDmA.bHRPAw.sc-dlfmHC.VnIYO')?.textContent || '').trim();
                 const position=parseFloat((element.querySelector('.sc-fubDmA.bHRPAw.sc-dlfmHC.hwrwlF')?.textContent || '').trim());
-                const oddString = (element.querySelector('.sc-fubDmA.dkMOSI.sc-dlfmHC.bxakJD')?.textContent || ' ').trim().split("/")
-                const odds : string|number =oddString.length===1? oddString[0] :parseInt(oddString[0])/parseInt(oddString[1])
+                const odds = (element.querySelector('.sc-fubDmA.dkMOSI.sc-dlfmHC.bxakJD')?.textContent || ' ').trim()
                 
 
                 return { name: name,  position:position, odds:odds };
@@ -100,24 +98,33 @@ export const scrapeEvent = async (url: string): Promise<Horse[]> => {
         await page.screenshot({
             path: 'screenshot'+Date.now()+'.jpg'
           });
+
+          page.on('console', async (msg) => {
+            const msgArgs = msg.args();
+            for (let i = 0; i < msgArgs.length; ++i) {
+              console.log(await msgArgs[i].jsonValue());
+            }
+          });
+          
                   
         const horses: Horse[] = await page.evaluate(() => {
             const horseElements = Array.from(document.querySelectorAll('.racerComponent'));
 
+
             return horseElements.map(element => {
-                const name = (element.querySelector('.racerTitle')?.textContent || '').trim();
-                const TJ = (element.querySelector('.racerSubtitle')?.textContent || '').trim().split('/');
+                const name = (element.querySelector('.racerTitle')?.textContent || ' ').trim();
+
+                const TJ = (element.querySelector('.racerSubtitle')?.textContent || ' ').trim().split('/');
                 const rating = parseInt(element.querySelector('.starRating.StarRating')?.getAttribute("rating") || ' ')
                 const age = parseInt((element.querySelector('.racerAge')?.textContent || ' ').trim().split(" ")[0])
                 
                 const [_, stones, pounds] = (element.querySelector('.racerWeight')?.textContent || ' ').trim().match(/(\d+)st (\d+)lbs/) || []
                 const weight = (parseInt(stones, 10) * 14) + parseInt(pounds, 10);
 
-                const oddString = (element.querySelector('.odds')?.textContent || ' ').trim().split("/")
-                const odds : string|number =oddString.length===1? oddString[0] :parseInt(oddString[0])/parseInt(oddString[1])
+                const odds = (element.querySelector('.odds')?.textContent || ' ').trim()
                 
 
-                return { name: name, trainer: TJ[0], jockee: TJ[1], rating: rating, age: age, weight:weight, odds:odds };
+                return { name: name, trainer: TJ[0] || null, jockee: TJ[1] || null, rating: rating || null, age: age || null, weight:weight ||null, odds:odds };
             });
         });
         const filteredHorses = horses.filter(horse => horse.trainer !== "");
