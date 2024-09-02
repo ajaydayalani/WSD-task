@@ -19,17 +19,19 @@ Follow these steps to set up and run the project:
    npm install
    ```
 
-3. **Start the API Server**
+3. **Update Env Variables**
+   Create an `.env` file in the root repository and you can then define the PORT (e.g ```PORT=3000```) you want to run the server on `defult port 8080` 
+
+4. **Start the API Server**
    Launch the API server by running:
    ```bash
    npm run start
    ```
 
-4. **Testing the API**
+5. **Testing the API**
    Use Postman or any other API testing tool to interact with and test the endpoints. The service also comprises of Unit Test using **JEST Framework** to run these test
    ```bash
    npm test
-   ```
 
 
 
