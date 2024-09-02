@@ -29,9 +29,9 @@ app.get('/health',(req:Request, res:Response)=>{
     return res.status(StatusCodes.OK).send('Server started');
 })
 
-app.use('/', userRouter)
+app.use( userRouter)
 
-app.use('/', horseOddsRouter)
+app.use( horseOddsRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`)

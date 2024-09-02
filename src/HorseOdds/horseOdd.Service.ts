@@ -99,12 +99,7 @@ export const scrapeEvent = async (url: string): Promise<Horse[]> => {
             path: 'screenshot'+Date.now()+'.jpg'
           });
 
-          page.on('console', async (msg) => {
-            const msgArgs = msg.args();
-            for (let i = 0; i < msgArgs.length; ++i) {
-              console.log(await msgArgs[i].jsonValue());
-            }
-          });
+        
           
                   
         const horses: Horse[] = await page.evaluate(() => {

@@ -29,7 +29,6 @@ userRouter.post( "/user",( req: Request, res:Response) => {
     username: username,
   };
 
-  console.log(user);
 
   users.push(user);
   return res.status(StatusCodes.OK).json({user:user});
