@@ -18,7 +18,6 @@ Follow these steps to set up and run the project:
    ```bash
    npm install
    ```
-
 3. **Update Env Variables**
    Create an `.env` file in the root repository and you can then define the PORT (e.g ```PORT=3000```) you want to run the server on `defult port 8080` 
 
@@ -49,9 +48,18 @@ The authentication service provides the following endpoints:
   - Description: Register a new user to obtain an API key.
   - Parameters: `username` (string) – The username for registration.
 
+#### Authentication
+The API key is used in the header of protected requests with the key-value pair.
+```json
+{x-api-key : apiKey}
+``` 
+
+
 ### Scraper
 
-The scraper offers several endpoints to fetch race odds data:
+The scraper offers an endpoints to fetch race odds data:
+- **GET /odds** This is a protected route and an API key is required. Based on the timing of the race one of the following object Arrays will be returned.
+
 
 - **Past Races**
   - Description: Get results of races that have already occurred.
