@@ -51,7 +51,9 @@ The authentication service provides the following endpoints:
 #### Authentication
 The API key is used in the header of protected requests with the key-value pair.
 ```json
-{x-api-key : apiKey}
+{
+    "x-api-key" : "apiKey"
+}
 ``` 
 For simplicity a default user is provided in the `user.Data.ts` class.
 
