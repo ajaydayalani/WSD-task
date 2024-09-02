@@ -32,6 +32,7 @@ Follow these steps to set up and run the project:
    Use Postman or any other API testing tool to interact with and test the endpoints. The service also comprises of Unit Test using **JEST Framework** to run these test
    ```bash
    npm test
+   ```
 
 
 
