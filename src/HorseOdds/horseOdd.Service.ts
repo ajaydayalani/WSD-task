@@ -8,11 +8,11 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/
 
 interface Horse {
     name: string;
-    trainer: string;
-    jockee: string;
-    rating: number;
-    age: number;
-    weight: number;
+    trainer?: string;
+    jockee?: string;
+    rating?: number;
+    age?: number;
+    weight?: number;
     odds:string;
 
 }
@@ -119,7 +119,14 @@ export const scrapeEvent = async (url: string): Promise<Horse[]> => {
                 const odds = (element.querySelector('.odds')?.textContent || ' ').trim()
                 
 
-                return { name: name, trainer: TJ[0] || null, jockee: TJ[1] || null, rating: rating || null, age: age || null, weight:weight ||null, odds:odds };
+                return { 
+                    name: name, 
+                    ...(TJ[0] && {trainer: TJ[0]}) , 
+                    ...(TJ[1] && {jockee: TJ[1]}), 
+                    ...(rating && {rating: rating} ), 
+                    ...(age && {age: age}), 
+                    ...(weight && {weight:weight}), 
+                    odds:odds };
             });
         });
         const filteredHorses = horses.filter(horse => horse.trainer !== "");
