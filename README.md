@@ -96,11 +96,6 @@ The scraper offers an endpoints to fetch race odds data:
     ```json
     {
       "name": "Tres Chic",
-      "trainer": null,
-      "jockey": null,
-      "rating": null,
-      "age": null,
-      "weight": null,
       "odds": "20/1"
     }
     ```
